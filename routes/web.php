@@ -1,3 +1,5 @@
+<?php
+
 use App\Http\Controllers\GajiController;
 use Illuminate\Support\Facades\Route;
 
