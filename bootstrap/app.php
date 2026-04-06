@@ -16,4 +16,20 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
-    })->create();
+    })
+    ->booted(function () {
+        if (isset($_SERVER['VERCEL_URL'])) {
+            $storagePath = '/tmp/storage';
+            if (!is_dir($storagePath)) {
+                @mkdir($storagePath, 0755, true);
+                @mkdir($storagePath . '/framework/views', 0755, true);
+                @mkdir($storagePath . '/framework/cache', 0755, true);
+                @mkdir($storagePath . '/framework/sessions', 0755, true);
+            }
+            app()->useStoragePath($storagePath);
+            config(['view.compiled' => $storagePath . '/framework/views']);
+            config(['cache.stores.file.path' => $storagePath . '/framework/cache']);
+            config(['session.files' => $storagePath . '/framework/sessions']);
+        }
+    })
+    ->create();
