@@ -1,0 +1,22 @@
+{
+    "version": 2,
+    "framework": "laravel",
+    "commands": {
+        "build": "php artisan optimize:clear"
+    },
+    "functions": {
+        "api/*.php": {
+            "runtime": "vercel-php@latest"
+        }
+    },
+    "routes": [
+        {
+            "src": "/(css|js|images|favicon.ico|manifest.json|icons)/(.*)",
+            "dest": "/public/$1/$2"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/api/index.php"
+        }
+    ]
+}
