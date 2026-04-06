@@ -1,6 +1,5 @@
 {
     "version": 2,
-    "framework": "laravel",
     "commands": {
         "build": "php artisan optimize:clear"
     },
