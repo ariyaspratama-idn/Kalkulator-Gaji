@@ -1,8 +1,5 @@
 {
     "version": 2,
-    "commands": {
-        "build": "php artisan optimize:clear"
-    },
     "functions": {
         "api/*.php": {
             "runtime": "vercel-php@latest"
