@@ -18,18 +18,15 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->booted(function () {
-        if (isset($_SERVER['VERCEL_URL'])) {
-            $storagePath = '/tmp/storage';
-            if (!is_dir($storagePath)) {
-                @mkdir($storagePath, 0755, true);
-                @mkdir($storagePath . '/framework/views', 0755, true);
-                @mkdir($storagePath . '/framework/cache', 0755, true);
-                @mkdir($storagePath . '/framework/sessions', 0755, true);
+        if (isset($_SERVER['VERCEL_URL']) || env('VIEW_COMPILED_PATH')) {
+            $storagePath = env('VIEW_COMPILED_PATH', '/tmp/storage');
+            if ($storagePath === '/tmp' || $storagePath === '/tmp/storage') {
+                 if (!is_dir($storagePath . '/framework/views')) {
+                    @mkdir($storagePath . '/framework/views', 0755, true);
+                    @mkdir($storagePath . '/framework/cache', 0755, true);
+                    @mkdir($storagePath . '/framework/sessions', 0755, true);
+                }
             }
-            app()->useStoragePath($storagePath);
-            config(['view.compiled' => $storagePath . '/framework/views']);
-            config(['cache.stores.file.path' => $storagePath . '/framework/cache']);
-            config(['session.files' => $storagePath . '/framework/sessions']);
         }
     })
     ->create();
